@@ -5,5 +5,5 @@ wup_build(
   'wp-camo',
   dirname(dirname(__FILE__)),
   getenv('WUP_DEPLOY_KEY'),
-  'http://local.ed-it.solutions/wp-admin/admin-post.php'
+  'http://www.ed-it.solutions/wp-admin/admin-post.php'
 );
