@@ -3,7 +3,9 @@ function build_and_release($slug, $rootPath, $deployKey, $url){
   $zip = new ZipArchive();
   $filename = $rootPath . '/' . $slug . '.zip';
 
-  unlink($filename);
+  if(file_exists($filename)){
+    unlink($filename);
+  }
 
   if($zip->open($filename, ZipArchive::CREATE) !== true){
     exit("Could not create {$filename}");
@@ -34,6 +36,8 @@ function build_and_release($slug, $rootPath, $deployKey, $url){
   }
 
   $zip->close();
+
+  echo('Zip Built' . PHP_EOL);
 
   $postOpts = array(
     'action' => 'wup_release',
