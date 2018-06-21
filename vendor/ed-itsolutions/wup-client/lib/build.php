@@ -60,6 +60,12 @@ function build_and_release($slug, $rootPath, $deployKey, $url){
 
   curl_close($request);
 
+  if(!isset($details->error) && !isset($details->success)){
+    var_dump($details);
+    echo('Something went wrong submitting to ' . $url . PHP_EOL);
+    return;
+  }
+
   if(isset($details->error)){
     echo($details->error);
   }else{

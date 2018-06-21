@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c92a02a475eca954aa8a8f068edaee1",
+    "content-hash": "e079aac55188b074ea768cb871acfbe6",
     "packages": [
         {
             "name": "composer/semver",
@@ -70,16 +70,16 @@
         },
         {
             "name": "ed-itsolutions/wup-client",
-            "version": "v0.0.1-alpha4",
+            "version": "v0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ed-ITSolutions/wup-client.git",
-                "reference": "5873b637dc07d99e2da9a2c7397d50792f3dc561"
+                "reference": "ae6f08badbbb80bc72fdaa125b99207e174df6e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ed-ITSolutions/wup-client/zipball/5873b637dc07d99e2da9a2c7397d50792f3dc561",
-                "reference": "5873b637dc07d99e2da9a2c7397d50792f3dc561",
+                "url": "https://api.github.com/repos/Ed-ITSolutions/wup-client/zipball/ae6f08badbbb80bc72fdaa125b99207e174df6e6",
+                "reference": "ae6f08badbbb80bc72fdaa125b99207e174df6e6",
                 "shasum": ""
             },
             "require": {
@@ -105,15 +105,13 @@
                 }
             ],
             "description": "WordPress Update Provider client for use in plugins / themes.",
-            "time": "2018-06-21T12:47:54+00:00"
+            "time": "2018-06-21T13:34:38+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ed-itsolutions/wup-client": 15
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

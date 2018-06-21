@@ -22,7 +22,7 @@ jobs:
       - run:
          name: Install PHP zip
          command: sudo docker-php-ext-install zip
-        
+
       - run:
           name: Build
           command: php ./.circleci/build.php
