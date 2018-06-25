@@ -27,8 +27,10 @@ class WPCamo{
     $hash = $wp_query->get('wp_camo');
     $url = openssl_decrypt(base64_decode($hash), 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16));
 
-    $file = file_get_contents($url);
+    $file = wp_remote_get($url);
 
-    die($file);
+    header('Content-Type:' . $file['headers']['content-type']);
+
+    echo($file['body']);
   }
 }
