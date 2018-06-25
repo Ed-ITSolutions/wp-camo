@@ -1,6 +1,10 @@
 version: 2
 jobs:
   build:
+    general:
+      branches:
+        only:
+         - master
     docker:
       # specify the version you desire here
       - image: circleci/php:7.1.5-browsers
