@@ -5,6 +5,7 @@
 * Version: 0.0.3
 * Author: Ed-IT Solutions
 * Author URI: http://www.ed-itsolutions.com
+* Details URI: https://github.com/Ed-ITSolutions/wp-camo/releases
 **/
 
 
