@@ -22,3 +22,6 @@ The image url will be encrypted with the sites nonce and then base64 encoded. Wh
 
 This ensures only your site can be used to generate valid WP-Camo urls.
 
+### Error Handling
+
+If WP-Camo encounters an error (404 on the image or bad nonce) it will return an image with the error in, which should prevent layouts from being broken by errors.
