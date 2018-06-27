@@ -45,7 +45,7 @@ $domains = get_option('wp_camo_domains', array());
           </td>
         </tr>
         <tr>
-          <th scope="row"><?php _e('Limit WP-Camo to these domains (One Per Line)', 'wp-camo'); ?></th>
+          <th scope="row"><?php _e('Apply WP-Camo to these domains (One Per Line)', 'wp-camo'); ?></th>
           <td>
             <fieldset>
               <textarea name="camo_domains" id="camo_domains" class="large-text"><?php echo(join("\n", $domains)); ?></textarea>
