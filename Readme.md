@@ -1,5 +1,7 @@
 # WP-Camo
 
+![Logo](./logo.png)
+
 _Proxies_ images via WordPress so that the origin is the sites domain.
 
 Orignal use case was WordPress themes that used images from facebook which in schools was blocked. By _proxying_ the image through wp-camo images from Facebook will now load in school.
@@ -27,3 +29,13 @@ This ensures only your site can be used to generate valid WP-Camo urls.
 If WP-Camo encounters an error (404 on the image or bad nonce) it will return an image with the error in, which should prevent layouts from being broken by errors.
 
 ### Content Filters
+
+Under Settings -> WP Camo there are two options that control the filters applied to `the_content`.
+
+#### Prevent mixed content errors
+
+When enabled any image source that starts with `http://` will be run through WP-Camo to prevent any mixed content warnings.
+
+#### Apply WP-Camo to these domains
+
+A list of domains that should be run through WP-Camo. Useful for sites like Facebook and Twitter that are frequently blocked by enterprise filtering systems but would normally meet content policies.
