@@ -1,5 +1,7 @@
 # WP-Camo
 
+[![CircleCI](https://circleci.com/gh/Ed-ITSolutions/wp-camo/tree/master.svg?style=svg)](https://circleci.com/gh/Ed-ITSolutions/wp-camo/tree/master)
+
 ![Logo](./logo.png)
 
 _Proxies_ images via WordPress so that the origin is the sites domain.

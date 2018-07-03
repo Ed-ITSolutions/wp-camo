@@ -27,8 +27,12 @@ jobs:
          command: sudo docker-php-ext-install zip
 
       - run:
+         name: Install Composer
+         command: sh ./.circleci/install-composer.sh
+
+      - run:
          name: Composer Install
-         command: composer install
+         command: php composer.phar install
 
       - run:
           name: Build
