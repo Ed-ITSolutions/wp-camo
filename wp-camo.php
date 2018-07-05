@@ -6,6 +6,7 @@
 * Author: Ed-IT Solutions
 * Author URI: http://www.ed-itsolutions.com
 * Details URI: https://github.com/Ed-ITSolutions/wp-camo/releases
+* Image: https://raw.githubusercontent.com/Ed-ITSolutions/wp-camo/master/logo.png
 **/
 
 
