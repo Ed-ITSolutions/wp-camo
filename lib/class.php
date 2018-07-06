@@ -59,34 +59,45 @@ class WPCamo{
 
     $hash = $wp_query->get('wp_camo');
 
-    $decoded = base64_decode($hash);
+    $transientKey = 'wp_camo_' . md5($hash);
 
-    $url = openssl_decrypt($decoded, 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16));
+    if(false === ($fileData = get_transient($transientKey))){
+      $decoded = base64_decode($hash);
 
-    if($url === false){
-      $this->errorImage(
-        '403',
-        __('URL not encrypted by this site.', 'wp-camo')
+      $url = openssl_decrypt($decoded, 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16));
+
+      if($url === false){
+        $this->errorImage(
+          '403',
+          __('URL not encrypted by this site.', 'wp-camo')
+        );
+        return;
+      }
+
+      $url = str_replace("&amp;", "&", $url);
+
+      $file = wp_remote_get($url);
+
+      if($file->errors > 0){
+        $this->errorImage(
+          '404',
+          __('Could not find Image.', 'wp-camo')
+        );
+        return;
+      }
+
+      $fileData = array(
+        'header' => $file['headers']['content-type'],
+        'body' => base64_encode($file['body'])
       );
-      return;
+
+      set_transient($transientKey, $fileData, 6 * HOUR_IN_SECONDS);
     }
 
-    $url = str_replace("&amp;", "&", $url);
+    header('Content-Type:' . $fileData['header']);
 
-    $file = wp_remote_get($url);
-
-
-    if($file->errors > 0){
-      $this->errorImage(
-        '404',
-        __('Could not find Image.', 'wp-camo')
-      );
-      return;
-    }
-
-    header('Content-Type:' . $file['headers']['content-type']);
-
-    echo($file['body']);
+    $body = base64_decode($fileData['body']);
+    echo($body);
   }
 
   public function errorImage($error, $message){
