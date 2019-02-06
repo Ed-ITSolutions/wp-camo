@@ -4,19 +4,35 @@ class WPCamo{
     add_filter('wp_camo_hash_url', array($this, 'hashUrl'));
     add_filter('the_content', array($this, 'contentFilter'));
 
-    add_action('init', array($this, 'rewrites'));
     add_action('admin_menu', array($this, 'adminPages'));
-    add_action('template_redirect', array($this, 'returnResource'), 1);
-  }
+    add_action('wp_camo_clean', array($this, 'clean'));
 
-  public function rewrites(){
-    add_rewrite_tag('%wp_camo%', '([^&]+)');
-    add_rewrite_rule('wp_camo/(.*)?', 'index.php?wp_camo=$matches[1]', 'top');
+    if(!wp_next_scheduled('wp_camo_clean')){
+      wp_schedule_event(time(), 'daily', 'wp_camo_clean');
+    }
   }
 
   public function hashUrl($url){
     $hash = base64_encode(openssl_encrypt($url, 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16)));
-    return home_url('/wp_camo/' . $hash);
+
+    $key = md5($url);
+
+    $dir = wp_upload_dir()['basedir'] . '/wp-camo';
+
+    if(!file_exists($dir)){
+      mkdir($dir);
+    }
+
+    if(!get_transient('wp_camo_file_' . $key)){
+      $file = wp_remote_get($url, array(
+        'stream' => true,
+        'filename' => $dir . '/' . $key
+      ));
+
+      set_transient('wp_camo_file_' . $key, true, 6 * HOUR_IN_SECONDS);
+    }
+
+    return wp_upload_dir()['baseurl'] . '/wp-camo/' . $key;
   }
 
   public function contentFilter($content){
@@ -50,56 +66,6 @@ class WPCamo{
     return $content;
   }
 
-  public function returnResource(){
-    global $wp_query, $wp;
-
-    if(substr($wp->request, 0, 7) != 'wp_camo'){
-      return;
-    }
-
-    $hash = $wp_query->get('wp_camo');
-
-    $transientKey = 'wp_camo_' . md5($hash);
-
-    if(false === ($fileData = get_transient($transientKey))){
-      $decoded = base64_decode($hash);
-
-      $url = openssl_decrypt($decoded, 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16));
-
-      if($url === false){
-        $this->errorImage(
-          '403',
-          __('URL not encrypted by this site.', 'wp-camo')
-        );
-        return;
-      }
-
-      $url = str_replace("&amp;", "&", $url);
-
-      $file = wp_remote_get($url);
-
-      if($file->errors > 0){
-        $this->errorImage(
-          '404',
-          __('Could not find Image.', 'wp-camo')
-        );
-        return;
-      }
-
-      $fileData = array(
-        'header' => $file['headers']['content-type'],
-        'body' => base64_encode($file['body'])
-      );
-
-      set_transient($transientKey, $fileData, 6 * HOUR_IN_SECONDS);
-    }
-
-    header('Content-Type:' . $fileData['header']);
-
-    $body = base64_decode($fileData['body']);
-    echo($body);
-  }
-
   public function errorImage($error, $message){
     header("Content-type: image/png");
     $image = imagecreate(300, 100);
@@ -125,5 +91,49 @@ class WPCamo{
 
   public function settingsPage(){
     require_once('pages/settings.php');
+  }
+
+  private function imageCreateFromAny($filepath) {
+    $type = exif_imagetype($filepath);
+    $allowedTypes = array(
+        1,  // [] gif
+        2,  // [] jpg
+        3,  // [] png
+        6   // [] bmp
+    );
+    if (!in_array($type, $allowedTypes)) {
+        return false;
+    }
+    switch ($type) {
+        case 1 :
+            $im = imageCreateFromGif($filepath);
+        break;
+        case 2 :
+            $im = imageCreateFromJpeg($filepath);
+        break;
+        case 3 :
+            $im = imageCreateFromPng($filepath);
+        break;
+        case 6 :
+            $im = imageCreateFromBmp($filepath);
+        break;
+    }   
+    return $im; 
+  }
+
+  public function clean(){
+    $dir = wp_upload_dir()['basedir'] . '/wp-camo';
+
+    $files = scandir($dir);
+
+    foreach($files as $file){
+      if($file != '.' && $file != '..'){
+        $key = explode('.', $file)[0];
+        
+        if(!get_transient('wp_camo_file_' . $key)){
+          unlink($dir . '/' . $file);
+        }
+      }
+    }
   }
 }

@@ -6,7 +6,7 @@ jobs:
         - master
     docker:
       # specify the version you desire here
-      - image: circleci/php:7.1.5-browsers
+      - image: circleci/php:7.3.1-fpm-browsers-legacy
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
