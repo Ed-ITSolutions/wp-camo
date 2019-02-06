@@ -22,13 +22,18 @@ apply_filters('wp_camo_hash_url', $url);
 
 This will return an image source that can be passed to an image tag.
 
-The image url will be encrypted with the sites nonce and then base64 encoded. When an image is requested it runs a base64 decode and then decrypts the url using the site nonce.
-
-This ensures only your site can be used to generate valid WP-Camo urls.
+The image url will be a location in `/wp-content/uploads/wp-camo/`. The image will be downloaded and cached on the server to reduce load.
 
 ### Error Handling
 
-If WP-Camo encounters an error (404 on the image or bad nonce) it will return an image with the error in, which should prevent layouts from being broken by errors.
+If WP-Camo encounters an error (404 on the image or bad image file) it will return an image with the error in, which should prevent layouts from being broken by errors.
+
+### Change paths
+
+There are 2 filters for changing the path wp-camo uploads images to.
+
+ - `wp_camo_disk_path` which sets the on disk path of the wp-camo directory.
+ - `wp_camo_public_path` which sets the public url of the wp-camo directory.
 
 ### Content Filters
 

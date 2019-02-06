@@ -13,26 +13,25 @@ class WPCamo{
   }
 
   public function hashUrl($url){
-    $hash = base64_encode(openssl_encrypt($url, 'aes128', NONCE_KEY, 0, substr(NONCE_SALT, 0, 16)));
-
     $key = md5($url);
 
-    $dir = wp_upload_dir()['basedir'] . '/wp-camo';
+    $dir = apply_filters('wp_camo_disk_path', wp_upload_dir()['basedir'] . '/wp-camo');
 
     if(!file_exists($dir)){
       mkdir($dir);
     }
 
     if(!get_transient('wp_camo_file_' . $key)){
-      $file = wp_remote_get($url, array(
+      wp_remote_get($url, array(
         'stream' => true,
         'filename' => $dir . '/' . $key
       ));
-
-      set_transient('wp_camo_file_' . $key, true, 6 * HOUR_IN_SECONDS);
     }
 
-    return wp_upload_dir()['baseurl'] . '/wp-camo/' . $key;
+    // Always update the trasient to keep active files cached.
+    set_transient('wp_camo_file_' . $key, true, 6 * HOUR_IN_SECONDS);
+
+    return apply_filters('wp_camo_public_path', wp_upload_dir()['baseurl'] . '/wp-camo') . '/' . $key;
   }
 
   public function contentFilter($content){
@@ -122,7 +121,7 @@ class WPCamo{
   }
 
   public function clean(){
-    $dir = wp_upload_dir()['basedir'] . '/wp-camo';
+    $dir = apply_filters('wp_camo_disk_path', wp_upload_dir()['basedir'] . '/wp-camo');
 
     $files = scandir($dir);
 
