@@ -2,9 +2,9 @@
 /**
 * Plugin Name: WP Camo
 * Description: Proxy URLS through your WordPress site to prevent mixed content warnings and 
-* Version: 1.0.1
+* Version: 1.0.2
 * Author: Ed-IT Solutions
-* Author URI: http://www.ed-itsolutions.com
+* Author URI: https://www.ed-itsolutions.com
 * Details URI: https://github.com/Ed-ITSolutions/wp-camo/releases
 * Image: https://raw.githubusercontent.com/Ed-ITSolutions/wp-camo/master/logo.png
 **/

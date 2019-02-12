@@ -1,5 +1,5 @@
 {
     "require": {
-        "ed-itsolutions/wup-client": "v0.1.1"
+        "ed-itsolutions/wup-client": "^0.1.2"
     }
 }
