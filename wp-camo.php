@@ -1,7 +1,7 @@
 <?php
 /**
 * Plugin Name: WP Camo
-* Description: Proxy URLS through your WordPress site to prevent mixed content warnings and 
+* Description: Proxy URLS through your WordPress site to prevent mixed content warnings and bypass local filtering
 * Version: 1.0.2
 * Author: Ed-IT Solutions
 * Author URI: https://www.ed-itsolutions.com
@@ -9,13 +9,8 @@
 * Image: https://raw.githubusercontent.com/Ed-ITSolutions/wp-camo/master/logo.png
 **/
 
-
-require_once('vendor/autoload.php');
-
 function wp_camo_run(){
   require_once('lib/class.php');
-
-  wup_client('plugin', 'wp-camo', 'https://wp.ed-it.solutions/wup/wp-camo');
 
   $wp_camo = new WPCamo();
 }
