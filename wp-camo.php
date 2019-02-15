@@ -9,6 +9,8 @@
 * Image: https://raw.githubusercontent.com/Ed-ITSolutions/wp-camo/master/logo.png
 **/
 
+if(!defined('ABSPATH')) exit;
+
 function wp_camo_run(){
   require_once('lib/class.php');
 
