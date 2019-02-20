@@ -1,7 +1,10 @@
 <?php
+if(!defined('ABSPATH')) exit;
 
 if(isset($_POST['camo_domains'])){
-  $rawDomains = explode("\n", $_POST['camo_domains']);
+  check_admin_referer('wp_camo_nonce');
+
+  $rawDomains = explode("\n", sanitize_textarea_field($_POST['camo_domains']));
 
   $domains = array();
   
@@ -31,6 +34,7 @@ $domains = get_option('wp_camo_domains', array());
 <div class="wrap">
   <h1><?php _e('WP-Camo', 'wp-camo'); ?></h1>
   <form action="" method="POST">
+    <?php wp_nonce_field('wp_camo_nonce'); ?>
     <table class="form-table">
       <tbody>
         <tr>

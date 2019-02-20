@@ -1,4 +1,6 @@
 <?php
+if(!defined('ABSPATH')) exit;
+
 class WPCamo{
   public function __construct(){
     add_filter('wp_camo_hash_url', array($this, 'hashUrl'));
