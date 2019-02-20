@@ -1,7 +1,7 @@
 === WP-Camo ===
 Contributors: arcath
 Donate link: https://www.ed-itsolutions.com
-Tags: proxy,
+Tags: proxy, images
 Requires at least: 4.6
 Tested up to: 5.0.3
 Stable tag: trunk
@@ -30,9 +30,9 @@ There are two settings that can be configured
 
 In your theme/plugin you can use the filter `wp_camo_hash_url` to get the location of the image through WP-Camo.
 
-```php
+`
 apply_filters('wp_camo_hash_url', $url);
-```
+`
 
 The image's url will be a location in `/wp-content/uploads/wp-camo/`. The image will be downloaded and cached on the server to reduce load.
 
